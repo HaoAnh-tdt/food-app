@@ -1,0 +1,143 @@
+.banner {
+    background: #e6f7e6;
+    border-radius: 20px;
+    padding: 30px 40px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.banner-img {
+    width: 220px;
+    margin-left: 40px;
+}
+.banner-title {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #388e3c;
+    margin-bottom: 10px;
+}
+.banner-desc {
+    color: #943f3f;
+    margin-bottom: 18px;
+}
+.banner-btn {
+    background: #43a047;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 28px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.banner-btn:hover {
+    background: #2e7031;
+}
+.categories {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 30px;
+    overflow-x: auto;
+}
+.category-item {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #eee;
+    padding: 18px 14px;
+    text-align: center;
+    min-width: 100px;
+}
+.category-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+.hot-sale {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+.hot-sale-left {
+    background: #fffbe7;
+    border-radius: 14px;
+    padding: 20px;
+    flex: 1;
+    min-width: 220px;
+}
+.hot-sale-products {
+    display: flex;
+    gap: 18px;
+    flex: 3;
+    overflow-x: auto;
+}
+.product-card {
+    min-height: 250px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #eee;
+    padding: 14px;
+    min-width: 180px;
+    text-align: center;
+}
+.product-img {
+    width: 150px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+.product-name {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+.product-price {
+    color: #43a047;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+.product-btn {
+    background: #43a047;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 16px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.product-btn:hover {
+    background: #2e7031;
+}
+/* 1. Container chung cho categories và hot‑sale */
+.categories,
+.hot-sale {
+  max-width: 1200px;    /* hoặc bao nhiêu pixel bạn muốn */
+  margin: 0 auto;       /* trên‑dưới: 0, trái‑phải: tự động */
+  padding: 0 16px;      /* tùy ý, cho khoảng cách với mép */
+  box-sizing: border-box;
+}
+
+/* 2. Căn giữa các phần tử con bên trong categories */
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;   /* cho các item nằm giữa */
+  gap: 24px;                  /* khoảng cách giữa các item */
+  margin-top: 32px;           /* cách khối trên một chút */
+}
+
+/* 3. Căn layout cho hot‑sale */
+.hot-sale {
+  display: flex;
+  justify-content: center;   /* căn hai cột chính giữa */
+  align-items: flex-start;   /* nếu bạn muốn cả hai cột top‑align */
+  gap: 40px;                  /* khoảng cách giữa ảnh và danh sách sản phẩm */
+  margin: 60px auto;         /* trên‑dưới: 60px, trái‑phải tự động */
+}
+
+/* 4. Bên trong .hot-sale-products, nếu muốn căn các card giữa */
+.hot-sale-products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
