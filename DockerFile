@@ -1,0 +1,42 @@
+# Dockerfile (mẫu)
+FROM php:8.2-fpm
+
+# system deps
+RUN apt-get update && apt-get install -y \
+    nginx \
+    git \
+    unzip \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev \
+    zip \
+    curl \
+    supervisor
+
+# php extensions
+RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath zip gd
+
+# composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# set workdir
+WORKDIR /var/www
+
+# copy app
+COPY . /var/www
+
+# composer install
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# permissions
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+
+# nginx config
+COPY docker/nginx.conf /etc/nginx/sites-available/default
+
+# supervisor config (run php-fpm + nginx)
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+EXPOSE 10000
+CMD ["/usr/bin/supervisord","-n","-c","/etc/supervisor/conf.d/supervisord.conf"]
