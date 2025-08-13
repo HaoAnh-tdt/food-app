@@ -7,9 +7,11 @@
             <li class="dropdown">
                 <a href="#" class="nav-link">Loại món ăn</a>
                 <ul class="dropdown-menu">
-                    @foreach($dsLoaiMon as $loai)
-                        <li><a href="/monan/{{ $loai->maloai }}" class="dropdown-item">{{ $loai->tenloai }}</a></li>
-                    @endforeach
+                    @if(isset($dsLoaiMon))
+                        @foreach($dsLoaiMon as $loai)
+                            <li><a href="/monan/{{ $loai->maloai }}" class="dropdown-item">{{ $loai->tenloai }}</a></li>
+                        @endforeach
+                    @endif
                 </ul>
             </li>
             <li><a href="/gioi-thieu" class="nav-link">Giới thiệu</a></li>

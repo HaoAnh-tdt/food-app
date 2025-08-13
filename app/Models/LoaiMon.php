@@ -11,5 +11,5 @@ class LoaiMon extends Model
     protected $table = 'loaimonan';
     protected $primaryKey = 'maloai';
     public $timestamps = false;
-    // protected $fillable = ['maloai', 'tenloaimon']; // Bổ sung nếu cần
+    protected $fillable = ['maloai', 'tenloai'];
 } 

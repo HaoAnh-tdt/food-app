@@ -1,66 +1,119 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Food App - Ứng dụng Ẩm thực
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ứng dụng web Laravel về ẩm thực với các tính năng quản lý món ăn, loại món và hình ảnh.
 
-## About Laravel
+## Tính năng
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Hiển thị danh sách món ăn
+- Phân loại món ăn theo loại
+- Quản lý hình ảnh món ăn
+- Giao diện responsive
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Cài đặt
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Yêu cầu hệ thống
 
-## Learning Laravel
+- PHP 8.1+
+- Composer
+- MySQL 5.7+
+- Node.js & NPM (cho Vite)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Cài đặt local
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. Clone repository:
+```bash
+git clone <repository-url>
+cd food-app
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Cài đặt dependencies:
+```bash
+composer install
+npm install
+```
 
-## Laravel Sponsors
+3. Tạo file .env:
+```bash
+cp env.example .env
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. Cấu hình database trong .env
 
-### Premium Partners
+5. Tạo key ứng dụng:
+```bash
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+6. Chạy migrations và seeders:
+```bash
+php artisan migrate
+php artisan db:seed
+```
 
-## Contributing
+7. Build assets:
+```bash
+npm run build
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+8. Chạy ứng dụng:
+```bash
+php artisan serve
+```
 
-## Code of Conduct
+## Deploy trên Render
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Cách 1: Sử dụng render.yaml (Khuyến nghị)
 
-## Security Vulnerabilities
+1. Push code lên GitHub
+2. Kết nối repository với Render
+3. Render sẽ tự động detect file `render.yaml` và deploy
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Cách 2: Deploy thủ công
+
+1. Tạo Web Service trên Render
+2. Chọn Docker environment
+3. Cấu hình:
+   - Build Command: `composer install --no-dev --optimize-autoloader --no-interaction`
+   - Start Command: `php artisan serve --host=0.0.0.0 --port=$PORT`
+
+### Cấu hình Database
+
+1. Tạo MySQL Database trên Render
+2. Cập nhật các biến môi trường:
+   - `DB_HOST`
+   - `DB_PORT`
+   - `DB_DATABASE`
+   - `DB_USERNAME`
+   - `DB_PASSWORD`
+
+## Cấu trúc Database
+
+### Bảng `loaimonan`
+- `maloai` (PK): Mã loại món
+- `tenloai`: Tên loại món
+
+### Bảng `monan`
+- `mamonan` (PK): Mã món ăn
+- `tenmonan`: Tên món ăn
+- `giamonan`: Giá món ăn
+- `maloai` (FK): Mã loại món
+- `mota`: Mô tả món ăn
+
+### Bảng `hinhanh`
+- `mahinhanh` (PK): Mã hình ảnh
+- `tenhinhanh`: Tên file hình ảnh
+- `mamonan` (FK): Mã món ăn
+
+## Routes
+
+- `/` - Trang chủ
+- `/monan` - Danh sách món ăn
+- `/monan/{maloai}` - Món ăn theo loại
+
+## Tác giả
+
+Food App Team
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT License

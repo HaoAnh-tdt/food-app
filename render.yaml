@@ -1,0 +1,58 @@
+services:
+  - type: web
+    name: food-app
+    env: docker
+    plan: starter
+    dockerfilePath: ./DockerFile
+    dockerContext: .
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        fromDatabase:
+          name: food-app-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: food-app-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: food-app-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: food-app-db
+          property: username
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: food-app-db
+          property: password
+      - key: CACHE_DRIVER
+        value: file
+      - key: SESSION_DRIVER
+        value: file
+      - key: QUEUE_DRIVER
+        value: sync
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader --no-interaction
+      php artisan key:generate
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+    startCommand: |
+      php artisan migrate --force
+      php artisan db:seed --force
+      /usr/bin/supervisord -n -c /etc/supervisor/conf.d/supervisord.conf
+
+databases:
+  - name: food-app-db
+    plan: starter
+    databaseName: food_app
+    user: food_app_user

@@ -10,12 +10,14 @@
     <img src="/public/images/monan/garan1.jpg" class="banner-img" alt="Banner Rau Tươi">
 </div>
 <div class="categories">
-    @foreach($dsLoaiMon as $loai)
-        <div class="category-item">
-            <div class="category-icon">🥬</div>
-            <div>{{ $loai->tenloai }}</div>
-        </div>
-    @endforeach
+            @if(isset($dsLoaiMon))
+            @foreach($dsLoaiMon as $loai)
+                <div class="category-item">
+                    <div class="category-icon">🥬</div>
+                    <div>{{ $loai->tenloai }}</div>
+                </div>
+            @endforeach
+        @endif
 </div>
 <div class="hot-sale">
     <div class="hot-sale-left">
@@ -24,14 +26,20 @@
         <img src="/public/images/monan/garan2.jpg" style="width:100%; border-radius:10px;">
     </div>
     <div class="hot-sale-products">
-        @foreach($dsMonAn as $monan)
-        <div class="product-card">
-            <img src="/images/monan/{{ $monan -> hinhanh -> tenhinhanh }}" class="product-img" alt="Ngô ngọt">
-            <div class="product-name">{{ $monan -> tenmonan }}</div>
-            <div class="product-price">{{ $monan -> giamonan }}</div>
-            <button class="product-btn">Thêm vào giỏ</button>
-        </div>
-        @endforeach
+        @if(isset($dsMonAn))
+            @foreach($dsMonAn as $monan)
+            <div class="product-card">
+                @if($monan->hinhanh)
+                    <img src="/images/monan/{{ $monan->hinhanh->tenhinhanh }}" class="product-img" alt="{{ $monan->tenmonan }}">
+                @else
+                    <div class="no-img">Không có ảnh</div>
+                @endif
+                <div class="product-name">{{ $monan->tenmonan }}</div>
+                <div class="product-price">{{ number_format($monan->giamonan) }} VNĐ</div>
+                <button class="product-btn">Thêm vào giỏ</button>
+            </div>
+            @endforeach
+        @endif
     </div>
 </div>
 

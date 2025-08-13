@@ -11,7 +11,7 @@ class MonAn extends Model
     protected $table = 'monan';
     protected $primaryKey = 'mamonan';
     public $timestamps = false;
-    // protected $fillable = ['mamonan', 'tenmonan', 'giamonan']; // Bổ sung nếu cần
+    protected $fillable = ['mamonan', 'tenmonan', 'giamonan', 'maloai', 'mota'];
 
     public function hinhanh()
     {
