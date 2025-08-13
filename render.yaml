@@ -43,13 +43,10 @@ services:
     buildCommand: |
       composer install --no-dev --optimize-autoloader --no-interaction
       php artisan key:generate
-      php artisan config:cache
-      php artisan route:cache
-      php artisan view:cache
     startCommand: |
       php artisan migrate --force
       php artisan db:seed --force
-      /usr/bin/supervisord -n -c /etc/supervisor/conf.d/supervisord.conf
+      /usr/local/bin/start.sh
 
 databases:
   - name: food-app-db
