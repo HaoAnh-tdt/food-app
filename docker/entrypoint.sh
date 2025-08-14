@@ -3,44 +3,43 @@ set -e
 
 : "${PORT:=8000}"
 
-# nếu có secret .env từ Render, copy vào (tuỳ bạn cấu hình Render)
+# If you put a secret .env in Render Secrets, copy it into place
 if [ -f /etc/secrets/.env ]; then
+  echo "[entrypoint] Copying secret .env to /var/www/.env"
   cp /etc/secrets/.env /var/www/.env || true
 fi
 
-# Nếu không có .env thì dùng env.example tạm (debug)
+# If no .env but env.example exists, copy for debug
 if [ ! -f /var/www/.env ] && [ -f /var/www/env.example ]; then
-  cp /var/www/env.example /var/www/.env
+  echo "[entrypoint] No .env found — copying env.example to .env (debug)"
+  cp /var/www/env.example /var/www/.env || true
 fi
 
-# ---- Ensure storage & cache dirs exist and have correct ownership/permissions ----
+# Ensure log & cache directories exist
 mkdir -p /var/www/storage /var/www/storage/logs /var/www/bootstrap/cache
-# remove possibly stale cached files that can block clearing (safe to rm)
-rm -f /var/www/bootstrap/cache/config.php /var/www/bootstrap/cache/services.php /var/www/bootstrap/cache/routes-v7.php || true
 
-# Set ownership and mode so artisan can write
-chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache || true
+# Remove stale cached config files that can block clears
+rm -f /var/www/bootstrap/cache/config.php /var/www/bootstrap/cache/services.php /var/www/bootstrap/cache/routes-*.php || true
+
+# Fix ownership/permissions so artisan can write
+chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache /var/www/vendor || true
 chmod -R 775 /var/www/storage /var/www/bootstrap/cache || true
 
-# Sometimes vendor files created as root - ensure vendor is readable
-chown -R www-data:www-data /var/www/vendor || true
-
-# ---- Now run artisan cleanup commands (safe even if some fail) ----
-# run as php CLI (running in container as root is fine)
-php artisan config:clear || echo "config:clear failed (ignored)"
-php artisan cache:clear || echo "cache:clear failed (ignored)"
-php artisan route:clear || echo "route:clear failed (ignored)"
-php artisan view:clear || echo "view:clear failed (ignored)"
-
-# ensure storage link (won't fail the container)
-php artisan storage:link || true
-
-# Ensure a laravel.log exists and is writeable
+# Create laravel.log if missing
 touch /var/www/storage/logs/laravel.log || true
 chown www-data:www-data /var/www/storage/logs/laravel.log || true
 chmod 664 /var/www/storage/logs/laravel.log || true
 
-# ---- Debug dump (temporary) ----
+# Clear caches (ignore failures)
+php artisan config:clear || echo "[entrypoint] config:clear failed (ignored)"
+php artisan cache:clear || echo "[entrypoint] cache:clear failed (ignored)"
+php artisan route:clear || echo "[entrypoint] route:clear failed (ignored)"
+php artisan view:clear || echo "[entrypoint] view:clear failed (ignored)"
+
+# Ensure storage link exists (ignore failure)
+php artisan storage:link || true
+
+# --- DEBUG dump (temporary) ---
 echo "===== START: env keys (redacted) ====="
 env | sed -E 's/^([^=]+=).*/\1<redacted>/' || true
 echo "===== END: env keys ====="
@@ -60,5 +59,5 @@ else
 fi
 echo "===== END: laravel.log ====="
 
-# ---- Start server, bind to $PORT ----
+# Start the app (bind to $PORT)
 exec php artisan serve --host=0.0.0.0 --port=${PORT}
