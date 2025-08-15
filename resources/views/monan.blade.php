@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Danh sách món ăn</title>
-    <link rel="stylesheet" href="{{ asset('css/monan.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('css/monan.css') }}"> -->
+     <link rel="stylesheet" href="https://food-app-1lws.onrender.com/css/monan.css">
+
 </head>
 <body>
     @include('header')

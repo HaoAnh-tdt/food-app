@@ -1,4 +1,7 @@
-<link rel="stylesheet" href="{{ asset('css/header.css') }}">
+<!-- <link rel="stylesheet" href="{{ asset('css/header.css') }}"> -->
+
+<link rel="stylesheet" href="https://food-app-1lws.onrender.com/css/header.css">
+
 <header class="main-header">
     <nav class="navbar">
         <div class="logo">FoodApp</div>
