@@ -1,8 +1,8 @@
-<!-- <link rel="stylesheet" href="{{ asset('css/home.css') }}">
-<link rel="stylesheet" href="{{ asset('css/monan.css') }}"> -->
+<link rel="stylesheet" href="{{ asset('css/home.css') }}">
+<link rel="stylesheet" href="{{ asset('css/monan.css') }}">
 
-<link rel="stylesheet" href="https://food-app-1lws.onrender.com/css/monan.css">
-<link rel="stylesheet" href="https://food-app-1lws.onrender.com/css/home.css">
+<!-- <link rel="stylesheet" href="https://food-app-1lws.onrender.com/css/monan.css">
+<link rel="stylesheet" href="https://food-app-1lws.onrender.com/css/home.css"> -->
 
 @include('header')
 <div class="banner">
