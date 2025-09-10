@@ -12,16 +12,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $table = 'taikhoan';
+    protected $primaryKey = 'id';
+    public $timestamps = false;
+    protected $fillable = ['name','email','password','api_token','api_token_created_at'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -30,7 +24,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'api_token',
     ];
 
     /**
